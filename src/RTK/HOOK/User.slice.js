@@ -11,10 +11,10 @@ const Userslice = () => {
 
   const token = localStorage.getItem("token");
 
-  if (!token) {
-    return navigate("/login");
-  }
   useEffect(() => {
+    if (!token) {
+      return console.log("token not found")
+    }
     const fn= async()=>{
         const res = await userExiest(token)
         console.log(res)

@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Send, CheckCircle, AlertCircle, UserCheck } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { sendMoney } from '../../API/send.money';
 
 const SendMoney = ({setActivechat}) => {
+  const user = useSelector((state) => state.Calluser.user);
+  const token = localStorage.getItem("token");
   const [step, setStep] = useState(1);
   const [accountNumber, setAccountNumber] = useState('');
   const [amount, setAmount] = useState('');
+  const [transactionID, setTransactionID] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const balance = 28450.75;
+  const balance = user?.ammount;
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-US', {
@@ -47,13 +52,19 @@ const SendMoney = ({setActivechat}) => {
     }
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     setLoading(true);
     // Simulate API call
-    setTimeout(() => {
+
+    const res = await sendMoney(accountNumber,amount,token)
+
+    if(res?.data){
       setLoading(false);
       setStep(4);
-    }, 1500);
+      setTransactionID(res.data.transaction)
+      console.log(res)
+    }
+
   };
 
   const handleReset = () => {
@@ -224,7 +235,7 @@ const SendMoney = ({setActivechat}) => {
 
       <div className="bg-gray-50 p-4 rounded-lg text-left">
         <p className="text-sm text-gray-600">Transaction ID</p>
-        <p className="font-mono text-sm">TXN{Math.random().toString(36).substr(2, 8).toUpperCase()}</p>
+        <p className="font-mono text-sm">{transactionID}</p>
       </div>
 
       <div className="space-y-3">

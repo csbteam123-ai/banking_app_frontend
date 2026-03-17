@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CreditCard,
   ArrowUpRight,
@@ -14,60 +14,112 @@ import {
   Plus,
 } from "lucide-react";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getTransaction } from "../../API/send.money";
 
 const Home = ({ setActivechat }) => {
   const user = useSelector((state) => state.Calluser.user);
+  const token = localStorage.getItem("token");
+  const [recentTransactions, setrecentTransactions] = useState([])
 
   // Sample data - in real app, this would come from API/props
   const accountData = {
-    name: "John Doe",
-    accountNumber: "**** 4582",
-    balance: 28450.75,
     currency: "USD",
   };
 
-  const recentTransactions = [
-    {
-      id: 1,
-      name: "Netflix Subscription",
-      amount: -14.99,
-      date: "2024-01-14",
-      category: "Entertainment",
-      type: "debit",
-    },
-    {
-      id: 2,
-      name: "Salary Deposit",
-      amount: 4500.0,
-      date: "2024-01-15",
-      category: "Income",
-      type: "credit",
-    },
-    {
-      id: 3,
-      name: "Whole Foods Market",
-      amount: -87.32,
-      date: "2024-01-13",
-      category: "Groceries",
-      type: "debit",
-    },
-    {
-      id: 4,
-      name: "Uber Ride",
-      amount: -24.5,
-      date: "2024-01-12",
-      category: "Transport",
-      type: "debit",
-    },
-    {
-      id: 5,
-      name: "Interest Earned",
-      amount: 12.34,
-      date: "2024-01-11",
-      category: "Interest",
-      type: "credit",
-    },
-  ];
+  useEffect(() =>{
+    const fn = async () =>{
+      const res = await getTransaction(token)
+      console.log(res.data.transactions.Transactions);
+      setrecentTransactions(res.data.transactions.Transactions)
+
+    }
+    fn()
+  },[])
+  
+
+  // const recentTransactions = [
+  //   {
+  //     id: 1,
+  //     name: "Netflix Subscription",
+  //     amount: -14.99,
+  //     date: "2024-01-14",
+  //     category: "Entertainment",
+  //     type: "debit",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Salary Deposit",
+  //     amount: 4500.0,
+  //     date: "2024-01-15",
+  //     category: "Income",
+  //     type: "credit",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Whole Foods Market",
+  //     amount: -87.32,
+  //     date: "2024-01-13",
+  //     category: "Groceries",
+  //     type: "debit",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Uber Ride",
+  //     amount: -24.5,
+  //     date: "2024-01-12",
+  //     category: "Transport",
+  //     type: "debit",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Interest Earned",
+  //     amount: 12.34,
+  //     date: "2024-01-11",
+  //     category: "Interest",
+  //     type: "credit",
+  //   },
+  //   {
+  //     id: 1,
+  //     name: "Netflix Subscription",
+  //     amount: -14.99,
+  //     date: "2024-01-14",
+  //     category: "Entertainment",
+  //     type: "debit",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Salary Deposit",
+  //     amount: 4500.0,
+  //     date: "2024-01-15",
+  //     category: "Income",
+  //     type: "credit",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Whole Foods Market",
+  //     amount: -87.32,
+  //     date: "2024-01-13",
+  //     category: "Groceries",
+  //     type: "debit",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Uber Ride",
+  //     amount: -24.5,
+  //     date: "2024-01-12",
+  //     category: "Transport",
+  //     type: "debit",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Interest Earned",
+  //     amount: 12.34,
+  //     date: "2024-01-11",
+  //     category: "Interest",
+  //     type: "credit",
+  //   },
+  // ];
 
   const cards = [
     {
@@ -104,6 +156,54 @@ const Home = ({ setActivechat }) => {
       amount: 180,
       percentage: 12,
       color: "bg-yellow-500",
+    },
+    {
+      category: "Entertainment",
+      amount: 150,
+      percentage: 10,
+      color: "bg-purple-500",
+    },
+    {
+      category: "Bills & Utilities",
+      amount: 380,
+      percentage: 26,
+      color: "bg-red-500",
+    },
+    {
+      category: "Entertainment",
+      amount: 150,
+      percentage: 10,
+      color: "bg-purple-500",
+    },
+    {
+      category: "Bills & Utilities",
+      amount: 380,
+      percentage: 26,
+      color: "bg-red-500",
+    },
+    {
+      category: "Entertainment",
+      amount: 150,
+      percentage: 10,
+      color: "bg-purple-500",
+    },
+    {
+      category: "Bills & Utilities",
+      amount: 380,
+      percentage: 26,
+      color: "bg-red-500",
+    },
+    {
+      category: "Entertainment",
+      amount: 150,
+      percentage: 10,
+      color: "bg-purple-500",
+    },
+    {
+      category: "Bills & Utilities",
+      amount: 380,
+      percentage: 26,
+      color: "bg-red-500",
     },
     {
       category: "Entertainment",
@@ -165,7 +265,7 @@ const Home = ({ setActivechat }) => {
               <div>
                 <p className="text-blue-100 text-sm">Total Balance</p>
                 <h2 className="text-4xl font-bold mt-1">
-                  {`${user?.ammount || "0"}.00`}
+                  {`${user?.ammount || "0"}.00$`}
                 </h2>
                 <p className="text-blue-100 text-sm mt-2">
                   Account •• {user?.accout_number || "**** **** **** 0000"}
@@ -177,7 +277,7 @@ const Home = ({ setActivechat }) => {
             {/* Quick Actions */}
             <div className="flex gap-4 mt-6">
               <button
-                className="flex items-center gap-2 bg-white/20 hover:bg-white/30 transition-colors px-4 py-2 rounded-xl"
+                className="flex items-center gap-2 bg-white/20 hover:bg-white/30 transition-colors px-4 py-2 rounded-xl cursor-pointer"
                 onClick={() => {
                   setActivechat("SEND MONEY");
                 }}
@@ -202,13 +302,15 @@ const Home = ({ setActivechat }) => {
               <h3 className="text-lg font-semibold text-gray-900">
                 Recent Transactions
               </h3>
-              <button className="text-blue-600 text-sm font-medium hover:text-blue-700">
+              <button className="text-blue-600 text-sm font-medium hover:text-blue-700" onClick={()=>{
+                setActivechat("TRANSACTION HISTORY")
+              }}>
                 View All
               </button>
             </div>
 
-            <div className="space-y-3">
-              {recentTransactions.map((transaction) => (
+            <div className="space-y-3 overflow-y-auto max-h-100">
+              {[...recentTransactions].reverse().map((transaction) => (
                 <div
                   key={transaction.id}
                   className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-xl transition-colors"
@@ -216,12 +318,12 @@ const Home = ({ setActivechat }) => {
                   <div className="flex items-center gap-3">
                     <div
                       className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        transaction.type === "credit"
+                        transaction.userId !== user?._id
                           ? "bg-green-100"
                           : "bg-red-100"
                       }`}
                     >
-                      {transaction.type === "credit" ? (
+                      {transaction.userId !== user?._id ? (
                         <ArrowDownRight className="w-5 h-5 text-green-600" />
                       ) : (
                         <ArrowUpRight className="w-5 h-5 text-red-600" />
@@ -229,21 +331,21 @@ const Home = ({ setActivechat }) => {
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">
-                        {transaction.name}
+                        {transaction.category}
                       </p>
                       <p className="text-sm text-gray-500">
-                        {transaction.category} • {formatDate(transaction.date)}
+                        {transaction.TransactionID} • {formatDate(transaction.date)}
                       </p>
                     </div>
                   </div>
                   <span
                     className={`font-semibold ${
-                      transaction.type === "credit"
+                      transaction.userId !== user?._id
                         ? "text-green-600"
                         : "text-red-600"
                     }`}
                   >
-                    {transaction.type === "credit" ? "+" : "-"}
+                    {transaction.userId !== user?._id ? "+" : "-"}
                     {formatCurrency(Math.abs(transaction.amount))}
                   </span>
                 </div>

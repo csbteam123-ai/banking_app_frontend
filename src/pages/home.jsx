@@ -17,11 +17,16 @@ import {
   Mail,
   Phone,
   MapPin,
-  Sparkle 
+  Sparkle,
+  User
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+  const token = localStorage.getItem('token');
+
+
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -48,14 +53,21 @@ const Home = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center space-x-4">
+           {!token &&  <div className="flex items-center space-x-4">
               <button className="hidden md:block text-gray-600 hover:text-blue-600 transition">
                 <Link to="/login">Login</Link>
               </button>
               <button className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-4 py-2 rounded-lg hover:shadow-lg transition">
                 <Link to="/singup">Signup</Link>
               </button>
-            </div>
+            </div>}
+            {token && (
+              <div className="flex items-center space-x-4">
+                <button className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-4 py-2 rounded-lg hover:shadow-lg transition">
+                  <Link to="/dasbord">Dashboard</Link>
+                </button>
+              </div>
+            )}
           </div>
         </nav>
       </header>
