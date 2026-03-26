@@ -5,6 +5,7 @@ import Send_munny from "../component/dasbord/Send_munny";
 import TransactionHistory from "../component/dasbord/TransactionHistory";
 import Settings from "../component/dasbord/Settings";
 import { useSelector } from "react-redux";
+import RequestPage from "../component/dasbord/RequestPage";
 
 
 const Dasbord = () => {
@@ -124,7 +125,7 @@ const Dasbord = () => {
           </div>
 
           {/* Navigation Menu */}
-          {["HOME", "SEND MONEY", "TRANSACTION HISTORY", "SETTINGS"].map(
+          {["HOME","Request", "SEND MONEY", "TRANSACTION HISTORY", "SETTINGS"].map(
             (item, index) => (
               <div
                 key={index}
@@ -143,6 +144,7 @@ const Dasbord = () => {
         {/* Main Content Area */}
         <div className="w-full md:w-4/5 h-full bg-gray-700 overflow-y-auto">
            {activechat === "HOME" && <Home setActivechat={setactivechat} />}
+           {activechat === "Request" && <RequestPage />}
            {activechat === "SEND MONEY" && <Send_munny setActivechat={setactivechat} />}
            {activechat === "TRANSACTION HISTORY" && <TransactionHistory />}
            {activechat === "SETTINGS" && < Settings/>}
